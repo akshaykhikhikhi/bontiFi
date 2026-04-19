@@ -1,0 +1,15 @@
+[workspace]
+resolver = "2"
+members = [
+    "nft",
+    "royalty_splitter",
+    "marketplace",
+]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[workspace.dependencies]
+soroban-sdk = "22.0.0"
