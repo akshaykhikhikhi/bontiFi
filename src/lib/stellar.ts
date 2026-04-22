@@ -1,7 +1,8 @@
 import { 
   getAddress, 
   signTransaction, 
-  isConnected 
+  isConnected,
+  setAllowed
 } from "@stellar/freighter-api";
 import * as StellarSdk from "@stellar/stellar-sdk";
 
@@ -33,6 +34,7 @@ export const CONTRACT_IDS = {
 
 export async function connectWallet() {
   if (await isConnected()) {
+    await setAllowed(); // This triggers the wallet prompt
     const { address } = await getAddress();
     return address;
   }
