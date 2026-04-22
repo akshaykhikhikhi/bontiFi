@@ -18,6 +18,7 @@ jobs:
       - name: Run Contract Tests
         run: |
           cd contracts
+          cargo build -p escrow --target wasm32v1-none --release
           cargo build --target wasm32v1-none --release
           cargo test
 
