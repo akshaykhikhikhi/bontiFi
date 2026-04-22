@@ -1,6 +1,6 @@
 # BountiFi: Decentralized Bounty Platform on Stellar 🌌
 
-[![CI](https://github.com/saasflare-online/chainnft/actions/workflows/ci.yml/badge.svg)](https://github.com/saasflare-online/chainnft/actions)
+[![CI](https://github.com/akshaykhikhikhi/bontiFi/actions/workflows/ci.yml/badge.svg)](https://github.com/akshaykhikhikhi/bontiFi/actions)
 
 BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. It enables trustless task management through an inter-contract escrow architecture, combined with a high-performance MongoDB indexing layer for a premium, low-latency user experience.
 
