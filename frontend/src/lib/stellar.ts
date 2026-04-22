@@ -78,7 +78,7 @@ async function signAndSubmit(tx: any) {
 
   console.log("Submitting transaction via direct RPC...");
   const sendResponse = await server.sendTransaction(
-    new StellarSdk.TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE) as any
+    StellarSdk.TransactionBuilder.fromXDR(signedXdr, NETWORK_PASSPHRASE) as any
   );
   
   if (sendResponse.status === "ERROR") {
