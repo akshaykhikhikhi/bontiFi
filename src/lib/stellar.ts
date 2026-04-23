@@ -41,6 +41,22 @@ export async function connectWallet() {
   throw new Error("Freighter not found");
 }
 
+export async function getConnectedAddress() {
+  try {
+    if (await isConnected()) {
+      await setAllowed();
+      const { address } = await getAddress();
+      if (address) return address;
+    }
+  } catch (e) {
+    console.warn("Freighter connection check failed:", e);
+  }
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("bug_bounty_address") || "";
+  }
+  return "";
+}
+
 async function waitForTransaction(txHash: string) {
   let iterations = 0;
   while (iterations < 30) { // 30 * 2s = 60s
@@ -96,7 +112,7 @@ export async function approveWorkOnChain(bountyId: number, subIndex: number, amo
   const BOARD_ID = CONTRACT_IDS.BOUNTY_BOARD;
   console.log("On-chain approval start:", { bountyId, subIndex, amount, board: BOARD_ID });
 
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
   
   const account = await server.getAccount(address);
@@ -129,7 +145,7 @@ export async function submitWorkOnChain(bountyId: number, ipfsLink: string) {
   const BOARD_ID = CONTRACT_IDS.BOUNTY_BOARD;
   console.log("Submitting work on-chain:", { bountyId, ipfsLink, board: BOARD_ID });
 
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
   
   const account = await server.getAccount(address);
@@ -159,7 +175,7 @@ export async function submitWorkOnChain(bountyId: number, ipfsLink: string) {
 }
 
 export async function approveEscrow(amount: string) {
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
 
   const account = await server.getAccount(address);
@@ -195,7 +211,7 @@ export async function approveEscrow(amount: string) {
 }
 
 export async function createBountyOnChain(reward: string, deadline: string, title: string, description: string) {
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
 
   const account = await server.getAccount(address);
@@ -236,7 +252,7 @@ export async function createBountyOnChain(reward: string, deadline: string, titl
 }
 
 export async function createTrustline() {
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
 
   console.log("Creating Trustline for Classic BNTY...");
@@ -264,7 +280,7 @@ export async function simulateSwapXlmToBnty(amount: string) {
 }
 
 export async function useFaucet() {
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
 
   console.log("Requesting Classic BNTY from Faucet...");
@@ -285,7 +301,7 @@ export async function useFaucet() {
 }
 
 export async function initializeContracts() {
-  const { address } = await getAddress();
+  const address = await getConnectedAddress();
   if (!address) throw new Error("Wallet not connected");
 
   const account = await server.getAccount(address);

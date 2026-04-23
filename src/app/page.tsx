@@ -53,7 +53,7 @@ export default function Home() {
             {address ? (
               <button 
                 onClick={() => router.push('/dashboard')}
-                className="brutal-button bg-black text-white border-white px-4 py-2 text-sm flex items-center hover:bg-white hover:text-black transition-colors"
+                className="brutal-button bg-black text-white border-2 border-white px-4 py-2 text-sm flex items-center hover:bg-white hover:text-black transition-colors shadow-[4px_4px_0px_white]"
               >
                 <LayoutDashboard size={18} className="mr-2" />
                 Dashboard
@@ -61,10 +61,10 @@ export default function Home() {
             ) : (
               <button 
                 onClick={connect}
-                className="brutal-button bg-sap-500 text-black px-4 py-2 text-sm flex items-center"
+                className="brutal-button bg-sap-500 text-black border-2 border-black font-black px-4 py-2 text-sm flex items-center shadow-[4px_4px_0px_#8B0000] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#8B0000] transition-all"
               >
                 <Wallet size={18} className="mr-2" />
-                Connect
+                Connect Wallet
               </button>
             )}
           </div>

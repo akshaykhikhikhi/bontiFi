@@ -1,7 +1,6 @@
 "use client";
 
 import { useWallet } from "@/context/WalletContext";
-import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { 
