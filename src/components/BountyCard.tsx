@@ -12,23 +12,35 @@ interface BountyProps {
 }
 
 export default function BountyCard({ title, reward, deadline, poster, status }: BountyProps) {
+  const isApproved = status === "Approved";
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.02 }}
-      className="glass p-6 rounded-3xl group cursor-pointer relative overflow-hidden"
+      className={`glass p-6 rounded-3xl group cursor-pointer relative overflow-hidden transition-all duration-500 ${
+        isApproved 
+          ? "border border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.15)] bg-green-500/[0.02]" 
+          : ""
+      }`}
     >
       <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-        <ChevronRight className="text-blue-400" />
+        <ChevronRight className={isApproved ? "text-green-400" : "text-blue-400"} />
       </div>
 
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-xl font-bold mb-1 group-hover:text-blue-400 transition-colors">{title}</h3>
+          <h3 className={`text-xl font-bold mb-1 transition-colors ${
+            isApproved ? "group-hover:text-green-400" : "group-hover:text-blue-400"
+          }`}>
+            {title}
+          </h3>
           <p className="text-sm text-gray-500 font-mono">Posted by {poster.slice(0, 6)}...{poster.slice(-4)}</p>
         </div>
-        <div className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+        <div className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+          isApproved ? "bg-green-500/10 text-green-400" : "bg-blue-500/10 text-blue-400"
+        }`}>
           {status}
         </div>
       </div>
@@ -57,9 +69,9 @@ export default function BountyCard({ title, reward, deadline, poster, status }: 
 
       <div className="mt-6 h-1 w-full bg-white/5 rounded-full overflow-hidden">
         <motion.div 
-          className="h-full bg-blue-500"
+          className={`h-full ${isApproved ? "bg-green-500" : "bg-blue-500"}`}
           initial={{ width: 0 }}
-          animate={{ width: "65%" }} // Simulation of progress
+          animate={{ width: isApproved ? "100%" : "65%" }} // Simulation of progress
           transition={{ duration: 1, delay: 0.5 }}
         />
       </div>

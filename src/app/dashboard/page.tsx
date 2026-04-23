@@ -10,7 +10,8 @@ import {
   DollarSign, 
   ExternalLink, 
   ChevronDown, 
-  CheckCircle
+  CheckCircle,
+  Trash2
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { approveWorkOnChain } from "@/lib/stellar";
@@ -52,6 +53,21 @@ export default function Dashboard() {
       fetchData();
     }
   }, [address]);
+
+  const handleDeleteBounty = async (dbId: string) => {
+    if (!confirm("Are you sure you want to remove this bounty? This will hide it from the platform.")) return;
+    try {
+      const res = await fetch(`/api/bounties/${dbId}`, { method: "DELETE" });
+      if (res.ok) {
+        setPostedBounties(prev => prev.filter(b => b._id !== dbId));
+      } else {
+        alert("Failed to delete bounty");
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Error deleting bounty");
+    }
+  };
 
   const handleApprove = async (subId: string, hunter: string, contractBountyId: string | number, onChainIndex: number, amount: string) => {
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
@@ -128,9 +144,11 @@ export default function Dashboard() {
                     subtitle={b.reward + " BNTY"} 
                     status={b.status} 
                     bountyId={b.contractBountyId}
+                    dbId={b._id}
                     creationTxHash={b.creationTxHash}
                     isPoster={true}
                     onApprove={handleApprove}
+                    onDelete={handleDeleteBounty}
                   />
                 ))
               )}
@@ -178,7 +196,7 @@ function StatCard({ title, value, icon }: any) {
   );
 }
 
-function DashboardItem({ title, subtitle, status, link, bountyId, isPoster, onApprove, creationTxHash }: any) {
+function DashboardItem({ title, subtitle, status, link, bountyId, dbId, isPoster, onApprove, onDelete, creationTxHash }: any) {
   const [showSubs, setShowSubs] = useState(false);
   const [subs, setSubs] = useState<any[]>([]);
   const [loadingSubs, setLoadingSubs] = useState(false);
@@ -219,6 +237,15 @@ function DashboardItem({ title, subtitle, status, link, bountyId, isPoster, onAp
           }`}>
             {status}
           </div>
+          {isPoster && onDelete && (
+            <button 
+              onClick={(e) => { e.stopPropagation(); onDelete(dbId); }}
+              className="p-1 hover:bg-red-500/20 text-red-400 rounded-md transition-colors"
+              title="Remove Bounty"
+            >
+              <Trash2 size={16} />
+            </button>
+          )}
           {isPoster && (
             <ChevronDown size={18} className={`text-gray-500 transition-transform ${showSubs ? "rotate-180" : ""}`} />
           )}
@@ -237,7 +264,7 @@ function DashboardItem({ title, subtitle, status, link, bountyId, isPoster, onAp
             <div className="text-xs text-gray-500 italic">No submissions yet.</div>
           ) : (
             subs.map((s, i) => (
-              <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-xl flex justify-between items-center">
+               <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-xl flex justify-between items-center">
                 <div>
                   <p className="text-sm font-bold text-gray-300">{s.hunter.slice(0, 8)}...{s.hunter.slice(-8)}</p>
                   <a href={s.ipfsLink} target="_blank" className="text-[10px] text-blue-400 hover:underline flex items-center gap-1 mt-1">
