@@ -1,10 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  --color-olive-400: #a3a32a;
+  --color-olive-500: #808000;
+  --color-olive-600: #5c5c00;
+  --color-olive-700: #3d3d00;
+
+  --color-sap-400: #7fb041;
+  --color-sap-500: #507D2A;
+  --color-sap-600: #3b5c1f;
+  --color-sap-700: #2a4016;
+
+  --color-deepred-400: #b51a1a;
+  --color-deepred-500: #8B0000;
+  --color-deepred-600: #660000;
+  --color-deepred-700: #4a0000;
+}
+
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
-  --primary: #3b82f6;
-  --accent: #8b5cf6;
+  --primary: #507D2A;
+  --accent: #8B0000;
 }
 
 body {
@@ -13,14 +30,33 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.brutal-card {
+  background: var(--background);
+  border: 2px solid #507D2A;
+  box-shadow: 6px 6px 0px #808000;
+  transition: all 0.2s ease-in-out;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.brutal-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0px #8B0000;
+}
+
+.brutal-button {
+  border: 2px solid var(--foreground);
+  box-shadow: 4px 4px 0px #507D2A;
+  font-weight: 900;
+  text-transform: uppercase;
+  transition: all 0.1s ease-in-out;
+}
+
+.brutal-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #507D2A;
+}
+
+.brutal-text {
+  color: var(--foreground);
+  text-shadow: 3px 3px 0px #8B0000;
+  letter-spacing: -1px;
 }

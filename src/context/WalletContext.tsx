@@ -18,7 +18,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check if previously connected in this session
-    const savedAddress = localStorage.getItem("bountifi_address");
+    const savedAddress = localStorage.getItem("bug_bounty_address");
     if (savedAddress) {
       setAddress(savedAddress);
     }
@@ -30,7 +30,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
       const pubKey = await connectWallet();
       if (pubKey) {
         setAddress(pubKey);
-        localStorage.setItem("bountifi_address", pubKey);
+        localStorage.setItem("bug_bounty_address", pubKey);
       }
     } catch (e) {
       console.error("Connection failed", e);
@@ -39,7 +39,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   const disconnect = () => {
     setAddress(null);
-    localStorage.removeItem("bountifi_address");
+    localStorage.removeItem("bug_bounty_address");
   };
 
   return (

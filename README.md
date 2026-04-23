@@ -1,10 +1,10 @@
-# BountiFi: Decentralized Bounty Platform on Stellar 🌌
+# Bug Bounty: Decentralized Bounty Platform on Stellar 🌌
 
-[![CI](https://github.com/akshaykhikhikhi/bontiFi/actions/workflows/ci.yml/badge.svg)](https://github.com/akshaykhikhikhi/bontiFi/actions)
+[![CI](https://github.com/akshaykhikhikhi/bug-bounty/actions/workflows/ci.yml/badge.svg)](https://github.com/akshaykhikhikhi/bug-bounty/actions)
 
-**Live App**: [https://bonti-fi.vercel.app/](https://bonti-fi.vercel.app/)
+**Live App**: [https://bug-bounty.vercel.app/](https://bug-bounty.vercel.app/)
 
-BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. It enables trustless task management through an inter-contract escrow architecture, combined with a high-performance MongoDB indexing layer for a premium, low-latency user experience.
+Bug Bounty is a high-end, decentralized bounty platform built on Stellar Soroban. It enables trustless task management through an inter-contract escrow architecture, combined with a high-performance MongoDB indexing layer for a premium, low-latency user experience.
 
 ## 🚀 Key Features
 - **🌐 Hybrid On-Chain/Off-Chain Architecture**: Secure fund management on Soroban with real-time indexing via MongoDB.
@@ -18,7 +18,7 @@ BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. 
 | ![Mobile Feed](./screenshots/feed.png) | ![Dashboard](./screenshots/dashboard.png) |
 
 ### 🎥 Live Demo
-https://github.com/akshaykhikhikhi/bontiFi/raw/main/videos/demo.mov
+https://github.com/akshaykhikhikhi/bug-bounty/raw/main/videos/demo.mov
 
 ## 🏗️ Technical Architecture
 The platform consists of three core Soroban contracts and a synchronized metadata layer:

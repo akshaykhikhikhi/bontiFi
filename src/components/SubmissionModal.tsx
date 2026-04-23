@@ -93,7 +93,7 @@ export default function SubmissionModal({ isOpen, onClose, bountyId, bountyTitle
                   <button 
                     type="button"
                     onClick={connect}
-                    className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-xl font-bold transition-all"
+                    className="bg-sap-600 hover:bg-sap-700 px-8 py-3 rounded-xl font-bold transition-all"
                   >
                     Connect Now
                   </button>
@@ -107,12 +107,12 @@ export default function SubmissionModal({ isOpen, onClose, bountyId, bountyTitle
                   value={ipfsLink}
                   onChange={(e) => setIpfsLink(e.target.value)}
                   placeholder="ipfs://..."
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-colors"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-sap-500 transition-colors"
                 />
               </div>
 
-              <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-2xl">
-                <p className="text-xs text-blue-400 leading-relaxed">
+              <div className="p-4 bg-sap-500/10 border border-sap-500/20 rounded-2xl">
+                <p className="text-xs text-sap-400 leading-relaxed">
                   Tip: Ensure your code or design is uploaded to a decentralized storage provider before submitting. We recommend using Pinata or Infura.
                 </p>
               </div>
@@ -125,7 +125,7 @@ export default function SubmissionModal({ isOpen, onClose, bountyId, bountyTitle
 
               <button 
                 disabled={loading}
-                className="w-full py-5 bg-green-600 hover:bg-green-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 disabled:opacity-50"
+                className="w-full py-5 bg-olive-600 hover:bg-olive-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 disabled:opacity-50"
               >
                 {loading ? (
                   <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

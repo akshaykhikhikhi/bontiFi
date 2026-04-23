@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { approveWorkOnChain } from "@/lib/stellar";
 
 export default function Dashboard() {
-  const { address, loading: authLoading } = useWallet();
+  const { address, loading: authLoading, disconnect } = useWallet();
   const [postedBounties, setPostedBounties] = useState<any[]>([]);
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,6 @@ export default function Dashboard() {
             bReq.json(),
             sReq.json()
           ]);
-          // Pure Testnet: Filter dashboard data
           setPostedBounties((bData || []).filter((b: any) => b.creationTxHash));
           setSubmissions(sData || []);
         } catch (e) {
@@ -81,18 +80,14 @@ export default function Dashboard() {
     }
 
     if (onChainIndex === undefined || onChainIndex === null || isNaN(Number(onChainIndex))) {
-      alert("Error: This submission is missing its on-chain index. It was likely created before the indexing system was live. Please submit a new answer to this bounty to test payouts.");
+      alert("Error: This submission is missing its on-chain index.");
       return;
     }
 
     if (!confirm(`Are you sure you want to approve this submission? This will release the funds to ${hunter}.`)) return;
 
     try {
-      // 1. Trigger Contract Call (On-Chain)
       const txResult = await approveWorkOnChain(Number(contractBountyId), Number(onChainIndex), amount);
-      console.log("On-chain approval result:", txResult);
-
-      // 2. Update Database
       const res = await fetch(`/api/submissions/${subId}/approve`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -112,25 +107,55 @@ export default function Dashboard() {
   if (authLoading || !address) return null;
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-4">
-      <Navbar />
+    <main className="min-h-screen flex flex-col md:flex-row bg-[#0a0a0a]">
       
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-4xl font-black mb-2">My Dashboard</h1>
-          <p className="text-gray-400 font-mono text-sm">{address}</p>
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <StatCard title="Total Posted" value={postedBounties.length} icon={<Package className="text-blue-500" />} />
-          <StatCard title="My Submissions" value={submissions.length} icon={<Users className="text-purple-500" />} />
-          <StatCard title="Total Earnings" value="0.00 BNTY" icon={<DollarSign className="text-green-500" />} />
+      {/* Left Split: Dashboard Sidebar */}
+      <div className="w-full md:w-[35%] md:fixed md:h-screen p-8 border-b-4 md:border-b-0 md:border-r-4 border-sap-500 bg-[#0f0f0f] flex flex-col z-10">
+        
+        <div className="flex items-center gap-4 mb-16 cursor-pointer" onClick={() => router.push('/')}>
+          <div className="w-12 h-12 bg-sap-500 border-2 border-white flex items-center justify-center font-black text-black text-2xl shadow-[4px_4px_0px_#8B0000]">
+            B
+          </div>
+          <span className="text-3xl font-black brutal-text tracking-tighter uppercase text-white">Back to Feed</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="mt-8">
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none mb-6 brutal-text text-white">
+            Your <br /> Command <br /> Center.
+          </h1>
+          <div className="p-4 bg-deepred-500/10 border-l-4 border-deepred-500 mb-8">
+            <p className="text-sap-400 font-mono text-sm break-all font-bold">
+              {address}
+            </p>
+          </div>
+
+          <button 
+            onClick={disconnect}
+            className="brutal-button bg-black border-deepred-500 text-deepred-500 hover:bg-deepred-500 hover:text-white px-6 py-4 w-full text-lg flex items-center justify-center gap-2"
+          >
+            Disconnect Wallet
+          </button>
+        </div>
+
+        <div className="mt-auto pt-8 border-t-2 border-white/5">
+          <div className="grid grid-cols-2 gap-4">
+            <StatCard title="Total Posted" value={postedBounties.length} icon={<Package className="text-sap-500" />} />
+            <StatCard title="Submissions" value={submissions.length} icon={<Users className="text-deepred-500" />} />
+          </div>
+        </div>
+
+      </div>
+
+      {/* Right Split: Dashboard Content */}
+      <div className="w-full md:w-[65%] md:ml-[35%] p-6 md:p-12 bg-black min-h-screen relative">
+        <div className="flex justify-between items-end border-b-4 border-white/10 pb-6 mb-12 sticky top-0 bg-black/90 backdrop-blur z-20 pt-6">
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">Activity</h2>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
           <section>
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Package size={24} className="text-blue-500" />
+            <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-2 text-white bg-sap-500/10 border-l-4 border-sap-500 pl-4 py-2">
+              <Package size={24} className="text-sap-500" />
               Bounties I Posted
             </h2>
             <div className="space-y-4">
@@ -156,8 +181,8 @@ export default function Dashboard() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <Users size={24} className="text-purple-500" />
+            <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-2 text-white bg-deepred-500/10 border-l-4 border-deepred-500 pl-4 py-2">
+              <Users size={24} className="text-deepred-500" />
               My Submissions
             </h2>
             <div className="space-y-4">
@@ -225,7 +250,7 @@ function DashboardItem({ title, subtitle, status, link, bountyId, dbId, isPoster
         className="glass p-4 rounded-2xl flex justify-between items-center group hover:bg-white/[0.05] transition-colors cursor-pointer"
       >
         <div>
-          <h4 className="font-bold group-hover:text-blue-400 transition-colors flex items-center gap-2">
+          <h4 className="font-bold group-hover:text-sap-400 transition-colors flex items-center gap-2">
             {title}
             {(link || isPoster) && <ExternalLink size={14} className="text-gray-500" />}
           </h4>
@@ -233,7 +258,7 @@ function DashboardItem({ title, subtitle, status, link, bountyId, dbId, isPoster
         </div>
         <div className="flex items-center gap-3">
           <div className={`text-[10px] font-black px-2 py-1 rounded-full uppercase ${
-            status === "Approved" || status === "Active" ? "bg-blue-500/10 text-blue-400" : "bg-yellow-500/10 text-yellow-400"
+            status === "Approved" || status === "Active" ? "bg-sap-500/10 text-sap-400" : "bg-yellow-500/10 text-yellow-400"
           }`}>
             {status}
           </div>
@@ -267,7 +292,7 @@ function DashboardItem({ title, subtitle, status, link, bountyId, dbId, isPoster
                <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-xl flex justify-between items-center">
                 <div>
                   <p className="text-sm font-bold text-gray-300">{s.hunter.slice(0, 8)}...{s.hunter.slice(-8)}</p>
-                  <a href={s.ipfsLink} target="_blank" className="text-[10px] text-blue-400 hover:underline flex items-center gap-1 mt-1">
+                  <a href={s.ipfsLink} target="_blank" className="text-[10px] text-sap-400 hover:underline flex items-center gap-1 mt-1">
                     <ExternalLink size={10} />
                     View Work (IPFS)
                   </a>
@@ -279,18 +304,18 @@ function DashboardItem({ title, subtitle, status, link, bountyId, dbId, isPoster
                       placeholder="Amt"
                       value={payoutAmounts[s._id] || ""}
                       onChange={(e) => setPayoutAmounts(prev => ({ ...prev, [s._id]: e.target.value }))}
-                      className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-[10px] w-16 focus:outline-none focus:border-blue-500"
+                      className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-[10px] w-16 focus:outline-none focus:border-sap-500"
                     />
                     <button 
                       onClick={() => onApprove(s._id, s.hunter, bountyId, s.onChainIndex, payoutAmounts[s._id])}
-                      className="bg-green-600 hover:bg-green-700 text-[10px] font-black px-4 py-2 rounded-lg uppercase transition-all"
+                      className="bg-olive-600 hover:bg-olive-700 text-[10px] font-black px-4 py-2 rounded-lg uppercase transition-all"
                     >
                       Approve & Pay
                     </button>
                   </div>
                 )}
                 {s.approved && (
-                  <div className="text-[10px] font-black text-green-500 uppercase flex items-center gap-1">
+                  <div className="text-[10px] font-black text-olive-500 uppercase flex items-center gap-1">
                     <CheckCircle size={12} />
                     Winner
                   </div>

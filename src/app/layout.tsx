@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BountiFi | Stellar Bounty Platform",
+  title: "Bug Bounty | Stellar Bounty Platform",
   description: "Decentralized task management on Soroban",
 };
 

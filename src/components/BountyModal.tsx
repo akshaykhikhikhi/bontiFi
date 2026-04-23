@@ -121,7 +121,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                     <button 
                       type="button"
                       onClick={connect}
-                      className="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-xl font-bold transition-all"
+                      className="bg-sap-600 hover:bg-sap-700 px-8 py-3 rounded-xl font-bold transition-all"
                     >
                       Connect Now
                     </button>
@@ -135,7 +135,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g. Build an NFT Marketplace"
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-colors"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-sap-500 transition-colors"
                   />
                 </div>
 
@@ -148,7 +148,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                       value={reward}
                       onChange={(e) => setReward(e.target.value)}
                       placeholder="1000"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-sap-500 transition-colors"
                     />
                   </div>
                   <div className="space-y-2">
@@ -159,7 +159,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                       value={deadline}
                       onChange={(e) => setDeadline(e.target.value)}
                       placeholder="7"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-sap-500 transition-colors"
                     />
                   </div>
                 </div>
@@ -172,13 +172,13 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Describe the task and requirements..."
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-sap-500 transition-colors resize-none"
                   />
                 </div>
 
                 <button 
                   disabled={loading}
-                  className="w-full py-5 bg-blue-600 hover:bg-blue-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 disabled:opacity-50"
+                  className="w-full py-5 bg-sap-600 hover:bg-sap-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 disabled:opacity-50"
                 >
                   <ArrowRight size={20} />
                   Continue to On-Chain Setup
@@ -194,7 +194,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                 </div>
 
                 <div className="text-center p-8 glass rounded-3xl border border-white/5 bg-white/5">
-                  <div className="w-20 h-20 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-6 text-blue-500">
+                  <div className="w-20 h-20 bg-sap-600/20 rounded-full flex items-center justify-center mx-auto mb-6 text-sap-500">
                     {step === 1 && <Check size={40} />}
                     {step === 2 && <CreditCard size={40} />}
                     {step === 3 && <Lock size={40} />}
@@ -222,7 +222,7 @@ export default function BountyModal({ isOpen, onClose }: BountyModalProps) {
                   <button 
                     disabled={loading}
                     onClick={handleNextStep}
-                    className="w-full py-5 bg-blue-600 hover:bg-blue-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                    className="w-full py-5 bg-sap-600 hover:bg-sap-700 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                   >
                     {loading ? (
                       <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -249,8 +249,8 @@ function StepIndicator({ current, target, icon, label }: any) {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-        active ? "bg-blue-600 text-white" : "bg-white/5 text-gray-500"
-      } ${pulse ? "ring-4 ring-blue-500/20 animate-pulse" : ""}`}>
+        active ? "bg-sap-600 text-white" : "bg-white/5 text-gray-500"
+      } ${pulse ? "ring-4 ring-sap-500/20 animate-pulse" : ""}`}>
         {active && current > target ? <Check size={18} /> : icon}
       </div>
       <span className={`text-[10px] font-black uppercase tracking-tighter ${active ? "text-white" : "text-gray-500"}`}>{label}</span>

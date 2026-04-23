@@ -1,12 +1,13 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
 import BountyCard from "@/components/BountyCard";
 import BountyModal from "@/components/BountyModal";
 import SubmissionModal from "@/components/SubmissionModal";
-import { Plus, Flame, TrendingUp } from "lucide-react";
-import { motion } from "framer-motion";
+import { Plus, TerminalSquare, Wallet, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useWallet } from "@/context/WalletContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,12 +15,13 @@ export default function Home() {
   const [selectedBounty, setSelectedBounty] = useState<any>(null);
   const [bounties, setBounties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { address, connect } = useWallet();
+  const router = useRouter();
 
   useEffect(() => {
     fetch("/api/bounties")
       .then((res) => res.json())
       .then((data) => {
-        // Pure Testnet: Only show bounties that were officially deployed to the blockchain
         const liveBounties = (data || []).filter((b: any) => b.creationTxHash);
         setBounties(liveBounties);
         setLoading(false);
@@ -31,8 +33,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-4">
-      <Navbar />
+    <main className="min-h-screen flex flex-col md:flex-row bg-[#0a0a0a]">
       <BountyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <SubmissionModal 
         isOpen={isSubModalOpen} 
@@ -40,71 +41,94 @@ export default function Home() {
         bountyId={selectedBounty?.contractBountyId}
         bountyTitle={selectedBounty?.title}
       />
-      
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-12">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 mb-4"
-          >
-            <div className="p-2 bg-blue-500/20 rounded-lg">
-              <Flame size={20} className="text-blue-500" />
-            </div>
-            <span className="text-sm font-bold uppercase tracking-widest text-blue-500">Trending Bounties</span>
-          </motion.div>
-          
-          <h1 className="text-5xl md:text-7xl font-black mb-6">
-            Empowering the <br />
-            <span className="gradient-text">Stellar Ecosystem.</span>
-          </h1>
-          
-          <p className="text-gray-400 text-lg max-w-2xl">
-            The decentralized destination for Stellar developers. Post task, secure rewards in escrow, and build the future of finance.
-          </p>
-        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Left Split: Fixed Hero / Nav */}
+      <div className="w-full md:w-[40%] md:fixed md:h-screen p-8 border-b-4 md:border-b-0 md:border-r-4 border-sap-500 bg-[#0f0f0f] flex flex-col justify-between z-10">
+        <div>
+          <div className="flex justify-between items-start">
+            <div className="w-16 h-16 bg-sap-500 border-2 border-white flex items-center justify-center font-black text-black text-4xl shadow-[6px_6px_0px_#8B0000]">
+              B
+            </div>
+            
+            {address ? (
+              <button 
+                onClick={() => router.push('/dashboard')}
+                className="brutal-button bg-black text-white border-white px-4 py-2 text-sm flex items-center hover:bg-white hover:text-black transition-colors"
+              >
+                <LayoutDashboard size={18} className="mr-2" />
+                Dashboard
+              </button>
+            ) : (
+              <button 
+                onClick={connect}
+                className="brutal-button bg-sap-500 text-black px-4 py-2 text-sm flex items-center"
+              >
+                <Wallet size={18} className="mr-2" />
+                Connect
+              </button>
+            )}
+          </div>
+          <div className="mt-24">
+            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-8 brutal-text">
+              Ship <br /> Code. <br /> Get <br /> Paid.
+            </h1>
+            <p className="text-olive-400 font-mono text-lg mb-12 border-l-4 border-deepred-500 pl-6 py-2 bg-deepred-500/10">
+              The brutal, decentralized destination for Stellar developers. No fluff, just bounties.
+            </p>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="brutal-button bg-sap-500 text-black px-8 py-5 w-full text-2xl flex items-center justify-between group"
+            >
+              <span>Post Bounty</span>
+              <TerminalSquare className="group-hover:text-deepred-700 transition-colors" size={32} />
+            </button>
+          </div>
+        </div>
+        
+        <div className="font-mono text-xs text-sap-700 uppercase tracking-widest mt-12 md:mt-0 flex justify-between items-center border-t-2 border-white/5 pt-4">
+          <span>Stellar Soroban Network</span>
+          <span className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-sap-500 animate-pulse" />
+            System Online
+          </span>
+        </div>
+      </div>
+
+      {/* Right Split: Scrollable Feed */}
+      <div className="w-full md:w-[60%] md:ml-[40%] p-6 md:p-12 bg-black min-h-screen relative">
+        <div className="flex justify-between items-end border-b-4 border-white/10 pb-6 mb-12 sticky top-0 bg-black/90 backdrop-blur z-20 pt-6">
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">Live Bounties</h2>
+          <span className="font-mono font-bold bg-olive-500 text-black px-4 py-2 uppercase border-2 border-olive-500 brutal-card">{bounties.length} Active</span>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
           {loading ? (
-            [1, 2, 3].map((i) => (
-              <div key={i} className="glass h-[300px] animate-pulse rounded-3xl" />
+            [1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-[300px] bg-white/5 border-2 border-white/10 animate-pulse brutal-card" />
             ))
+          ) : bounties.length === 0 ? (
+            <div className="col-span-full border-4 border-dashed border-white/10 p-12 text-center text-gray-500 font-mono uppercase">
+              No bounties available at the moment.
+            </div>
           ) : (
             bounties.map((bounty, i) => (
-              <div key={i} onClick={() => {
-                if (bounty.status === "Approved") {
-                  alert("This bounty has already been completed and is closed for submissions.");
-                  return;
-                }
-                setSelectedBounty(bounty);
-                setIsSubModalOpen(true);
-              }}>
+              <div 
+                key={i} 
+                onClick={() => {
+                  if (bounty.status === "Approved") {
+                    alert("This bounty has already been completed and is closed for submissions.");
+                    return;
+                  }
+                  setSelectedBounty(bounty);
+                  setIsSubModalOpen(true);
+                }}
+                className="w-full"
+              >
                 <BountyCard {...bounty} />
               </div>
             ))
           )}
-          
-          <motion.button 
-            onClick={() => setIsModalOpen(true)}
-            whileHover={{ scale: 1.02 }}
-            className="border-2 border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center gap-4 text-gray-500 hover:text-white hover:border-white/30 transition-all min-h-[300px]"
-          >
-            <div className="p-4 bg-white/5 rounded-full">
-              <Plus size={32} />
-            </div>
-            <span className="font-bold">Post New Bounty</span>
-          </motion.button>
         </div>
-      </div>
-
-      {/* Floating Action Button for Mobile */}
-      <div className="fixed bottom-8 right-8 md:hidden">
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="w-14 h-14 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30"
-        >
-          <Plus className="text-white" />
-        </button>
       </div>
     </main>
   );
