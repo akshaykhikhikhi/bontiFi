@@ -98,7 +98,7 @@ export default function Home() {
       <div className="w-full md:w-[60%] md:ml-[40%] p-6 md:p-12 bg-black min-h-screen relative">
         <div className="flex justify-between items-end border-b-4 border-white/10 pb-6 mb-12 sticky top-0 bg-black/90 backdrop-blur z-20 pt-6">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white">Live Bounties</h2>
-          <span className="font-mono font-bold bg-olive-500 text-black px-4 py-2 uppercase border-2 border-olive-500 brutal-card">{bounties.length} Active</span>
+          <span className="font-mono font-bold text-olive-500 px-4 py-2 uppercase border-2 border-olive-500 brutal-card">{bounties.length} Active</span>
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
