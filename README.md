@@ -23,9 +23,9 @@ https://github.com/akshaykhikhikhi/bontiFi/raw/main/videos/demo.mov
 ## 🏗️ Technical Architecture
 The platform consists of three core Soroban contracts and a synchronized metadata layer:
 
-1. **BountyToken (`CD...TOKEN`)**: SEP-41 utility token for rewards.
-2. **Escrow (`CD...ESCROW`)**: A vault that holds funds and only releases them via `BountyBoard` authorized calls.
-3. **BountyBoard (`CD...BOARD`)**: The central engine handling submissions and atomic approvals.
+1. **BountyToken (`CA26J2YJNTDQONXOCUKHFTQ2SVY4ZHANVIF3VI45LLNT3MYX5KLUFDTJ`)**: SEP-41 utility token for rewards.
+2. **Escrow (`CBNKNOG37YHDBIAZDMDDLR2CVZ2KVJKASOM2APWSIFZ5ECGIRS3A6B55`)**: A vault that holds funds and only releases them via `BountyBoard` authorized calls.
+3. **BountyBoard (`CA3NRNACCQNILSO253SYYNWZBITCD4GVMMQBLEK2M4PV4YUTAXZONVYT`)**: The central engine handling submissions and atomic approvals.
 
 ### Inter-Contract Escrow (Atomic Release)
 When a poster approves a submission, the BountyBoard contract triggers a cross-contract call to the Escrow contract.
