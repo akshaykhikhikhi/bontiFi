@@ -13,7 +13,7 @@ BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. 
 - **⚡ Automated Payouts**: One-click "Approve & Pay" triggers atomic cross-contract fund releases.
 
 ## 📱 Previews & Demo
-| Feed View | Dashboard View |
+| Screenshot: mobile responsive view (Feed) | Screenshot: mobile responsive view (Dashboard) |
 |-----------|------------------|
 | ![Mobile Feed](./screenshots/feed.png) | ![Dashboard](./screenshots/dashboard.png) |
 
