@@ -17,8 +17,6 @@ Bug Bounty is a high-end, decentralized bounty platform built on Stellar Soroban
 |-----------|------------------|
 | ![Mobile Feed](./screenshots/CleanShot%202026-04-25%20at%2000.38.10@2x.png) | ![Dashboard](./screenshots/CleanShot%202026-04-25%20at%2000.38.36@2x.png) |
 
-### 🎥 Live Demo
-https://github.com/akshaykhikhikhi/bug-bounty/raw/main/videos/demo.mov
 
 ## 🏗️ Technical Architecture
 The platform consists of three core Soroban contracts and a synchronized metadata layer:
